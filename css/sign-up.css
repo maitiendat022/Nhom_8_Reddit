@@ -1,0 +1,72 @@
+.container .right {
+    width: 312px;
+}
+.container .right  .main-right .google{
+ background-color: white;
+ border: 1px solid rgb(0, 121, 211);
+ width: 300px;
+ height: 50px;
+ color: rgb(0, 121, 211);
+ border-radius: 5px;
+ box-shadow: 0 5px 10px 0 rgba(76, 111, 244, 0.5);
+}
+.container .right  .main-right .google span{
+    font-weight: 600;
+}
+.container .right  .main-right .google .logogg{
+    height: 40px;
+    width: 40px;
+    margin-left: -40px;
+    margin-right: 20px;
+   }
+.container .right  .main-right .google:hover{
+    background-color: rgb(0, 121, 211);
+    color: white;
+}
+.container .right  .main-right .apple{
+    background-color: white;
+    border: 1px solid rgb(0, 121, 211);
+    width: 300px;
+    height: 50px;
+    color: rgb(0, 121, 211);
+    border-radius: 5px;
+    box-shadow: 0 5px 10px 0 rgba(76, 111, 244, 0.5);
+}
+.container .right  .main-right .apple .logoapple{
+    height: 30px;
+    width: 30px;
+    margin-left: -50px;
+    margin-right: 20px;
+    background-color: chartreuse;
+   }
+ .container .right  .main-right .apple span{
+    font-weight: 600;
+}
+.container .right  .main-right .apple:hover{
+    background-color: rgb(0, 121, 211);
+    color: white;
+}
+.container .right  .main-right .bt-continue{
+    background-color: rgb(0, 121, 211);
+    width: 300px;
+    height: 40px;
+    /*  */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+}
+
+
+
+.invalid{
+    color: red;
+    font-size: 14px;
+}
+.invalid .form-control{
+    border: 1px solid red;
+}
+.textError{
+    color: red;
+    font-size: 14px;
+}
