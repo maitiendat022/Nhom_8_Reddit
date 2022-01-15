@@ -3,6 +3,10 @@
   if(!isset($_SESSION['isLogInOk'])){
     header("location: index.php");
   }
+  $search = '';
+    if(isset($_GET['search'])) {
+        $search = $_GET['search'];
+    }
   $user = $_SESSION['isLogInOk'];
   $connect = mysqli_connect('localhost','root','','reddit');
   $sqlUser = "SELECT * FROM userreddit WHERE (nameUser = '$user')" ;
@@ -165,7 +169,8 @@
           <form action="">
             <label for=""><i class="bi bi-search"></i></label>
             <input
-              type="text"
+              name = "search"
+              type="search"
               class="bi bi-search"
               placeholder="Search reddit"
             />
@@ -370,7 +375,7 @@
           <div>
             <?php
             
-              $sql = "SELECT * FROM postreddit WHERE nameUser = '$user'";
+              $sql = "SELECT * FROM postreddit WHERE nameUser = '$user' and title like '%$search%'";
 
               $result = mysqli_query($connect,$sql);
               

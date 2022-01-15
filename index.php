@@ -1,3 +1,9 @@
+<?php 
+    $search = '';
+    if(isset($_GET['search'])) {
+        $search = $_GET['search'];
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -45,7 +51,8 @@
           <form action="">
             <label for=""><i class="bi bi-search"></i></label>
             <input
-              type="text"
+              name = "search"
+              type="search"
               class="bi bi-search"
               placeholder="Search reddit"
             />
@@ -266,7 +273,7 @@
               <?php
               $connect = mysqli_connect('localhost','root','','reddit');
               
-              $sql = "SELECT * FROM postreddit";
+              $sql = "SELECT * FROM postreddit WHERE nameUser like '%$search%' or title like '%$search%'";
 
               $result = mysqli_query($connect,$sql);
               
