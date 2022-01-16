@@ -23,7 +23,7 @@
     <main>
         <div class="container row">
             <div class="left col-md-3">
-                <img src="img/signup-left.jpg" alt="">
+                <img src="img/login-left.jpg" alt="">
             </div>
             <div class="right col-md-6">
                 <div class="header mt-5 mb-3">
@@ -40,7 +40,7 @@
                     <button class="google ">
                         <div class=" logo ">
                             <div class="img">
-                                <img src="img/logogg.jpg" alt="">
+                                <img src="img/logo-google.png" alt="">
                             </div>
                             <span>CONTINUE WITH GOOGLE</span>
                         </div>

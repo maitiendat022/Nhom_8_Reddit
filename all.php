@@ -1,13 +1,13 @@
 <?php
-  // session_start();
-  // if(!isset($_SESSION['isLogInOk'])){
-  //   header("location: index.php");
-  // }
+  session_start();
+  if(!isset($_SESSION['isLogInOk'])){
+    header("location: index.php");
+  }
   $search = '';
     if(isset($_GET['search'])) {
         $search = $_GET['search'];
     }
-  // $user = $_SESSION['isLogInOk'];
+  $user = $_SESSION['isLogInOk'];
   $connect = mysqli_connect('localhost','root','','reddit');
   $sqlUser = "SELECT * FROM userreddit WHERE (nameUser = '$user')" ;
   $resultUser = mysqli_query($connect,$sqlUser);
