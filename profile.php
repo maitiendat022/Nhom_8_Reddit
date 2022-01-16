@@ -1,15 +1,18 @@
 <?php
-  //session_start();
-  // if(!isset($_SESSION['isLogInOk'])){
-  //   header("location: index.php");
-  // }
- // $user = $_SESSION['isLogInOk'];
+  session_start();
+  if(!isset($_SESSION['isLogInOk'])){
+    header("location: index.php");
+  }
+  $search = '';
+    if(isset($_GET['search'])) {
+        $search = $_GET['search'];
+    }
+  $user = $_SESSION['isLogInOk'];
   $connect = mysqli_connect('localhost','root','','reddit');
   $sqlUser = "SELECT * FROM userreddit WHERE (nameUser = '$user')" ;
   $resultUser = mysqli_query($connect,$sqlUser);
   $rowUser = mysqli_fetch_assoc($resultUser);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,7 +30,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="css/popular.css" />
+    <link rel="stylesheet" href="css/profile.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -44,9 +47,10 @@
       href="https://www.redditstatic.com/desktop2x/img/favicon/favicon-32x32.png"
       type="image/x-icon"
     />
+    <script src = "js/jquery-3.6.0.min.js"></script>
+    <script src = "js/avatar.js"></script>
   </head>
-  <body class="overflow-scroll">
-    
+  <body class="overflow-scroll" id="body">
     <header>
       <div id="header">
         <div class="h-left">
@@ -57,12 +61,19 @@
         <div class="h-home">
           <div class="home" id="home">
             <button id="homebt">
-              <i class="bi bi-arrow-up-right-circle-fill popular"></i>
-              <span class="text">Popular</span>
+              <img src="img/user_img/<?php 
+                              if($rowUser['avatar'] == 0){
+                                echo 'R.jpg';
+                              }
+                              else{
+                                echo $rowUser['avatar'];
+                              }
+                    ?>" alt="">
+              <span class="text"><?php echo $user ?></span>
               <i class="bi bi-chevron-down ms-auto"></i>
             </button>
-            <div role="menu" class="home-bt" id="home-bt">
-              <input type="text" placeholder="Filter">
+            <div role="menu" id="home-bt" class="home-bt">
+              <input type="text" placeholder="Filter" />
               <div class="home-bt-menu">
                 <div>FEEDS</div>
                 <a href="home.php">
@@ -70,7 +81,7 @@
                   <span>Home</span>
                 </a>
                 <a href="popular.php">
-                  <i class="bi bi-arrow-up-right-circle-fill"></i>
+                  <i class="bi bi-arrow-up-right-circle"></i>
                   <span>Popular</span>
                 </a>
                 <a href="all.php">
@@ -83,25 +94,31 @@
                 </a>
                 <div>OTHER</div>
                 <a href="">
-                  <img src="img/user_img/<?php 
+                  <img
+                    src="img/user_img/<?php 
                               if($rowUser['avatar'] == 0){
                                 echo 'R.jpg';
                               }
                               else{
                                 echo $rowUser['avatar'];
                               }
-                    ?>" alt="">
+                    ?>"
+                    alt=""
+                  />
                   <span>User Settings</span>
                 </a>
                 <a href="">
-                  <img src="img/user_img/<?php 
+                  <img
+                    src="img/user_img/<?php 
                               if($rowUser['avatar'] == 0){
                                 echo 'R.jpg';
                               }
                               else{
                                 echo $rowUser['avatar'];
                               }
-                    ?>" alt="">
+                    ?>"
+                    alt=""
+                  />
                   <span>Messages</span>
                 </a>
                 <a href="createPost.php">
@@ -133,7 +150,7 @@
                   <span>Powerups</span>
                 </a>
                 <a href="">
-                  <img src="img/recap.png" alt="">
+                  <img src="img/recap.png" alt="" />
                   <span>Reddit Recap</span>
                 </a>
                 <a href="">
@@ -141,21 +158,19 @@
                   <span>Talk</span>
                 </a>
                 <a href="">
-                  <span class="material-icons pre">
-                    travel_explore
-                    </span>
+                  <span class="material-icons pre"> travel_explore </span>
                   <span>Predictions</span>
                 </a>
               </div>
             </div>
           </div>
         </div>
-          
         <div class="h-search">
           <form action="">
             <label for=""><i class="bi bi-search"></i></label>
             <input
-              type="text"
+              name = "search"
+              type="search"
               class="bi bi-search"
               placeholder="Search reddit"
             />
@@ -166,13 +181,12 @@
             <a href="popular.html">
               <i class="bi bi-arrow-up-right-circle"></i>
             </a>
-            <a href="all.html">
-              <i class="bi bi-filter-circle"></i>
-            </a><a href="">
+            <a href="all.html"> <i class="bi bi-filter-circle"></i> </a
+            ><a href="">
               <i class="bi bi-camera-video"></i>
             </a>
             <a href="">
-              <img src="img/recap.png" alt="">
+              <img src="img/recap.png" alt="" />
             </a>
           </div>
           <div class="h-right-r">
@@ -188,9 +202,11 @@
                 </button>
               </span>
               <span class="span-3">
-                <button>
-                  <a style = "color:rgb(28,28,28)" href="createPost.php"><i class="bi bi-plus"></i></a>
-                </button>
+                <a href="createPost.php">
+                  <button>
+                    <i class="bi bi-plus"></i>
+                  </button>
+                </a>
               </span>
               <span class="coins">
                 <button>
@@ -206,14 +222,17 @@
                 <span class="avt-name">
                   <span>
                     <div class="avt">
-                      <img src="img/user_img/<?php 
+                      <img
+                        src="img/user_img/<?php 
                               if($rowUser['avatar'] == 0){
                                 echo 'R.jpg';
                               }
                               else{
                                 echo $rowUser['avatar'];
                               }
-                    ?>" alt="">
+                    ?>"
+                        alt=""
+                      />
                     </div>
                   </span>
                   <span class="names">
@@ -226,6 +245,7 @@
                 </span>
                 <i class="bi bi-chevron-down ms-auto down"></i>
               </button>
+              <!--  -->
               <div id="menu-profile">
                 <div class="menu">
                   <h3>ONLINE STATUS</h3>
@@ -242,7 +262,7 @@
                   </button>
                   <h3>MY STUFF</h3>
                   <a class="recap" href="">
-                    <img src="img/recap.png" alt="">
+                    <img src="img/recap.png" alt="" />
                     <p>Reddit Recap</p>
                     <p class="text-new ms-auto">NEW!</p>
                   </a>
@@ -281,8 +301,8 @@
                   <a class="coin" href="">
                     <i class="bi bi-coin"></i>
                     <div>
-                        <span>Coins</span>
-                        <span class="coins">0 coins</span>
+                      <span>Coins</span>
+                      <span class="coins">0 coins</span>
                     </div>
                   </a>
                   <a href="">
@@ -298,15 +318,11 @@
                     <div>Talk</div>
                   </a>
                   <a class="icon" href="">
-                    <span class="material-icons">
-                      travel_explore
-                      </span>
+                    <span class="material-icons"> travel_explore </span>
                     <div>Predictions</div>
                   </a>
                   <a class="icon" href="">
-                    <span class="material-icons">
-                      help_outline
-                      </span>
+                    <span class="material-icons"> help_outline </span>
                     <div>Help Center</div>
                   </a>
                   <a href="">
@@ -318,126 +334,32 @@
                     <div>Log Out</div>
                   </a>
                 </div>
-              </div> 
+              </div>
+
+              <!--  -->
             </div>
           </div>
         </div>
       </div>
     </header>
-    <main>
-      <div id="main">
-        <div class="main">
-          <div class="main-top">
-            <div class="trending-p">
-              <div>Trending today</div>
-            </div>
 
-            <div class="trending">
-              <div class="card card-1" style="width: 18rem">
-                <a
-                  href="https://www.reddit.com/search?q=Ukraine&source=trending"
-                >
-                  <div class="trending-1">
-                    <div class="trending-1a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">Ukraine</h2>
-                          <div class="text">
-                            Russian mercenaries deploy to eastern Ukraine -
-                            sources
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="card" style="width: 18rem; margin-left: 12px">
-                <a
-                  href="https://www.reddit.com/search?q=Hong%20Kong&source=trending"
-                >
-                  <div class="trending-2">
-                    <div class="trending-2a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">Hong Kong</h2>
-                          <div class="text">
-                            University of Hong Kong appears to demolish...
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="card" style="width: 18rem; margin-left: 12px">
-                <a
-                  href="https://www.reddit.com/search?q=Student%20Loans&source=trending"
-                >
-                  <div class="trending-3">
-                    <div class="trending-3a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">Student Loans</h2>
-                          <div class="text">
-                            Pause on student loan payments is extended
-                            through...
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="card" style="width: 18rem; margin-left: 12px">
-                <a
-                  href="https://www.reddit.com/search?q=James%20Webb&source=trending"
-                >
-                  <div class="trending-4">
-                    <div class="trending-4a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">James Webb Telescope</h2>
-                          <div class="text">
-                            NASA's 'trailer' for the James Webb telescope. I
-                            gotta say...
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+    <main>
       <div id="main-bt">
         <div class="main-bt-left">
           <div class="popular">
-            <div class="popular-text">
-              <div>Popular posts</div>
-            </div>
+        
             <div class="popular-main">
               <div class="popular-main-left">
+                <a href="" class="new">
+                    <i class="bi bi-gear-wide"></i>
+                    <span>New</span>
+                </a>
+
                 <a href="http://www.reddit.com/hot/" class="hot">
                   <i class="fas fa-burn"></i>
                   <span>Hot</span>
                 </a>
-
-                <div class="everywhere">
-                  <button>
-                    <span>Everywhere</span>
-                    <i class="bi bi-chevron-down"></i>
-                  </button>
-                </div>
-
-                <div class="new">
-                  <a href="">
-                    <i class="bi bi-gear-wide"></i>
-                    <span>New</span>
-                  </a>
-                </div>
 
                 <div class="top">
                   <a href="">
@@ -447,26 +369,13 @@
                 </div>
               </div>
 
-              <div class="popular-main-right">
-                <div class="menu">
-                  <button>
-                    <i class="bi bi-three-dots"></i>
-                  </button>
-                </div>
-                <div class="menu-car">
-                  <button>
-                    <span class="material-icons"> view_agenda </span>
-                    <i class="bi bi-chevron-down"></i>
-                  </button>
-                </div>
-              </div>
+              
             </div>
           </div>
-
           <div>
             <?php
             
-              $sql = "SELECT * FROM postreddit";
+              $sql = "SELECT * FROM postreddit WHERE nameUser = '$user' and title like '%$search%'";
 
               $result = mysqli_query($connect,$sql);
               
@@ -520,7 +429,7 @@
                         alt=""
                       /> -->
                       <?php
-                        if( $row['img'] !== ""){
+                        if($row['img'] !== ""){
                           echo "<img src = 'img/post_img/{$row['img']}' />";
                         }
                       ?>
@@ -534,11 +443,7 @@
                         }
                       ?>
                     </div>
-                  <div class="link">
-                    <a href="index.html">
-                      <span></span>
-                    </a>
-                  </div>
+                  
                 </div>
                 <div class="posts-main-bt">
                   <a href="">
@@ -553,7 +458,11 @@
                     <i class="bi bi-bookmark"></i>
                     <span>Save</span>
                   </button>
-                  <button><i class="bi bi-three-dots"></i></button>
+                  <button id = "btn-updel" class="btn-updel"><i class="bi bi-three-dots"></i></button>
+                  <a href="editPost.php?idPost=<?php echo $row['idPost']?>"><i class="bi bi-pen"></i><span>Edit</span></a>
+                  <a onclick="return confirm('Bạn chắc chắn muốn xóa?')" href="process-delete.php?idPost=<?php echo $row['idPost']?>&user=<?php echo $user ?>">
+                    <i class="bi bi-trash"></i><span>Delete</span>
+                  </a>          
                 </div>
               </div>
             </div>
@@ -561,121 +470,74 @@
                 }
               }
             ?>
-          </div>
+          </div>  
         </div>
         <div class="main-bt-right">
-          <div class="top-news">
-            <div class="top">
-              <div class="top-bg">
-                <h2 class="h2">
-                  <a href="">Top News Communities</a>
-                </h2>
+          <div id = "user-info">
+            <div class = "info-top">
+              <form class="img-user" method = "post" action = "process-avatar_profile.php" enctype="multipart/form-data">
+                <label class="form-label fs-4 d-block" for="img-user">
+                  <div class="imgs">
+                    <div class="img">
+                      <img id="img_user" src="img/user_img/<?php
+                              if($rowUser['avatar'] == 0){
+                                echo 'R.jpg';
+                              }
+                              else{
+                                echo $rowUser['avatar'];
+                              }
+                    ?>" alt="">
+                    </div>
+                    <div class="icon">
+                      <i class="bi bi-camera"></i>
+                    </div>
+                  </div>
+                </label>
+                <input style = "display:none;" name = "userAvt" id="userAvt" type="text" value = "<?php echo $user; ?>">
+                <input  type="file" hidden accept = "image/*" id="img-user" name="imgAvatar" onchange="document.getElementById('img_user').src = window.URL.createObjectURL(this.files[0])" class="form__input form-control form-control-lg"/>
+                <div class="modal mt-5" id ="save-Avt" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Change Avatar</h5>
+                      </div>
+                      <div class="modal-body">
+                        <p>Do you agree to change? </p>
+                      </div>
+                      <div class="modal-footer">
+                        <a href=""><button type="button">Cancal</button></a>
+                        <button type="submit" class = "btnAvatar" name = "btnAvatar" >Save</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+              </form>
+              <div class= "name-user">
+                <span> <?php echo $user ?> </span>
+                <i class="bi bi-gear ms-auto"></i>
               </div>
             </div>
-            <ol class="ol">
-              <li>
-                <div class="li-1">
-                  <span>1</span>
-                  <i class="bi bi-chevron-up"></i>
-                  <img
-                    src="img/E0Bkwgwe5TkVLflBA7WMe9fMSC7DV2UOeff-UpNJeb0.png"
-                    alt=""
-                  />
-                  <span>r/news</span>
+            <button class = "cr-avt">Create Avatar</button>
+            <div class = "info-bt">
+              <div class = "karma">
+                <span>karma</span>
+                <div class="a"><i class="bi bi-flower1"></i><span>1</span></div>
+              </div>
+              <div class = "cake-day ms-auto">
+                <span>Cake day</span>
+                <div class="a">
+                  <i class="bi bi-credit-card-2-front"></i>
+                  <span><?php echo $rowUser['daycreate'] ?></span>
                 </div>
-                <button class="ms-auto">join</button>
-              </li>
-              <li>
-                <div class="li-1">
-                  <span>2</span>
-                  <i class="bi bi-chevron-down i-down"></i>
-                  <img src="img/li-2.png" alt="" />
-                  <span>r/nottheonion</span>
-                </div>
-                <button class="ms-auto">join</button>
-              </li>
-              <li>
-                <div class="li-1">
-                  <span>3</span>
-                  <i class="bi bi-chevron-up"></i>
-                  <img src="img/li-3.PNG" alt="" />
-                  <span>r/worldnews</span>
-                </div>
-                <button class="ms-auto">join</button>
-              </li>
-              <li>
-                <div class="li-1">
-                  <span>4</span>
-                  <i class="bi bi-chevron-up"></i>
-                  <img src="img/li-4.png" alt="" />
-                  <span>r/savedyouaclick</span>
-                </div>
-                <button class="ms-auto">join</button>
-              </li>
-              <li>
-                <div class="li-1">
-                  <span>5 </span>
-                  <i class="bi bi-chevron-up"></i>
-                  <img src="img/li-5.jpg" alt="" />
-                  <span>r/olympics</span>
-                </div>
-                <button class="ms-auto">join</button>
-              </li>
-            </ol>
-            <div class="view-all">
-              <a href="">View All</a>
-            </div>
-            <div class="top-news-bt">
-              <a href="">Top</a>
-              <a href="">Near You</a>
-              <a href="">Aww</a>
-              <a href="">Sports</a>
-            </div>
-          </div>
-
-          <div class="rd-pr">
-            <div class="rd-pr-top">
-              <img src="img/rd-pr.PNG" alt="" />
-              <div class="rd-pr-text">
-                <span class="span-1">Reddit Premium</span>
-                <span>The best Reddit experience, with monthly Coins</span>
               </div>
             </div>
-            <div class="try">
-              <button>Try Now</button>
-            </div>
+            <a href="createPost.php"><button class = "new-post">New Post</button></a>
+            <button class = "options ms-auto">More Options</button>
+            
           </div>
-
-          <div class="menu">
-            <div class="menu-1">
-              <div>POPULAR COMMUNITIES</div>
-              <i class="bi bi-chevron-down ms-auto"></i>
-            </div>
-            <div class="menu-1">
-              <div>GAMING</div>
-              <i class="bi bi-chevron-down ms-auto"></i>
-            </div>
-            <div class="menu-1">
-              <div>SPORTS</div>
-              <i class="bi bi-chevron-down ms-auto"></i>
-            </div>
-            <div class="menu-1">
-              <div>TV</div>
-              <i class="bi bi-chevron-down ms-auto"></i>
-            </div>
-            <div class="menu-1">
-              <div>TRAVEL</div>
-              <i class="bi bi-chevron-down ms-auto"></i>
-            </div>
-            <div class="menu-1">
-              <div>HEALTH & FITNESS</div>
-              <i class="bi bi-chevron-down ms-auto"></i>
-            </div>
-            <div class="menu-2">
-              <div>FASHION</div>
-              <i class="bi bi-chevron-down ms-auto"></i>
-            </div>
-          </div>
+          <!--  -->
+    
+          <!--  -->
           <div class="about">
             <div class="about-top">
               <div class="about-1">

@@ -1,15 +1,18 @@
 <?php
-  //session_start();
-  // if(!isset($_SESSION['isLogInOk'])){
-  //   header("location: index.php");
-  // }
- // $user = $_SESSION['isLogInOk'];
+  session_start();
+  if(!isset($_SESSION['isLogInOk'])){
+    header("location: index.php");
+  }
+  $search = '';
+    if(isset($_GET['search'])) {
+        $search = $_GET['search'];
+    }
+  $user = $_SESSION['isLogInOk'];
   $connect = mysqli_connect('localhost','root','','reddit');
   $sqlUser = "SELECT * FROM userreddit WHERE (nameUser = '$user')" ;
   $resultUser = mysqli_query($connect,$sqlUser);
   $rowUser = mysqli_fetch_assoc($resultUser);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,7 +30,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="css/popular.css" />
+    <link rel="stylesheet" href="css/all.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -46,7 +49,6 @@
     />
   </head>
   <body class="overflow-scroll">
-    
     <header>
       <div id="header">
         <div class="h-left">
@@ -57,8 +59,8 @@
         <div class="h-home">
           <div class="home" id="home">
             <button id="homebt">
-              <i class="bi bi-arrow-up-right-circle-fill popular"></i>
-              <span class="text">Popular</span>
+            <i class="bi bi-filter-circle-fill all"></i>
+              <span class="text">All</span>
               <i class="bi bi-chevron-down ms-auto"></i>
             </button>
             <div role="menu" class="home-bt" id="home-bt">
@@ -70,11 +72,11 @@
                   <span>Home</span>
                 </a>
                 <a href="popular.php">
-                  <i class="bi bi-arrow-up-right-circle-fill"></i>
-                  <span>Popular</span>
+                    <i class="bi bi-arrow-up-right-circle"></i>
+                    <span>Popular</span>
                 </a>
                 <a href="all.php">
-                  <i class="bi bi-filter-circle"></i>
+                <i class="bi bi-filter-circle-fill"></i>
                   <span>All</span>
                 </a>
                 <a href="">
@@ -150,12 +152,12 @@
             </div>
           </div>
         </div>
-          
         <div class="h-search">
           <form action="">
             <label for=""><i class="bi bi-search"></i></label>
             <input
-              type="text"
+              name = "search"
+              type="search"
               class="bi bi-search"
               placeholder="Search reddit"
             />
@@ -217,7 +219,7 @@
                     </div>
                   </span>
                   <span class="names">
-                    <span class="name"><?php echo $user ?></span>
+                    <span class="name"><?php echo $user?></span>
                     <span class="karma">
                       <i class="bi bi-flower1"></i>
                       <span>1 karma</span>
@@ -226,6 +228,7 @@
                 </span>
                 <i class="bi bi-chevron-down ms-auto down"></i>
               </button>
+              <!--  -->
               <div id="menu-profile">
                 <div class="menu">
                   <h3>ONLINE STATUS</h3>
@@ -318,106 +321,20 @@
                     <div>Log Out</div>
                   </a>
                 </div>
-              </div> 
+              </div>          
+    
+    
+
+    <!--  -->
             </div>
           </div>
         </div>
       </div>
     </header>
-    <main>
-      <div id="main">
-        <div class="main">
-          <div class="main-top">
-            <div class="trending-p">
-              <div>Trending today</div>
-            </div>
-
-            <div class="trending">
-              <div class="card card-1" style="width: 18rem">
-                <a
-                  href="https://www.reddit.com/search?q=Ukraine&source=trending"
-                >
-                  <div class="trending-1">
-                    <div class="trending-1a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">Ukraine</h2>
-                          <div class="text">
-                            Russian mercenaries deploy to eastern Ukraine -
-                            sources
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="card" style="width: 18rem; margin-left: 12px">
-                <a
-                  href="https://www.reddit.com/search?q=Hong%20Kong&source=trending"
-                >
-                  <div class="trending-2">
-                    <div class="trending-2a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">Hong Kong</h2>
-                          <div class="text">
-                            University of Hong Kong appears to demolish...
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="card" style="width: 18rem; margin-left: 12px">
-                <a
-                  href="https://www.reddit.com/search?q=Student%20Loans&source=trending"
-                >
-                  <div class="trending-3">
-                    <div class="trending-3a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">Student Loans</h2>
-                          <div class="text">
-                            Pause on student loan payments is extended
-                            through...
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="card" style="width: 18rem; margin-left: 12px">
-                <a
-                  href="https://www.reddit.com/search?q=James%20Webb&source=trending"
-                >
-                  <div class="trending-4">
-                    <div class="trending-4a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">James Webb Telescope</h2>
-                          <div class="text">
-                            NASA's 'trailer' for the James Webb telescope. I
-                            gotta say...
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <main>  
       <div id="main-bt">
         <div class="main-bt-left">
           <div class="popular">
-            <div class="popular-text">
-              <div>Popular posts</div>
-            </div>
             <div class="popular-main">
               <div class="popular-main-left">
                 <a href="http://www.reddit.com/hot/" class="hot">
@@ -466,7 +383,7 @@
           <div>
             <?php
             
-              $sql = "SELECT * FROM postreddit";
+              $sql = "SELECT * FROM postreddit WHERE nameUser like '%$search%' or title like '%$search%'";
 
               $result = mysqli_query($connect,$sql);
               
@@ -705,6 +622,7 @@
           </div>
         </div>
       </div>
+      
     </main>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

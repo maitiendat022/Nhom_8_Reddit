@@ -1,15 +1,19 @@
 <?php
-  //session_start();
-  // if(!isset($_SESSION['isLogInOk'])){
-  //   header("location: index.php");
-  // }
- // $user = $_SESSION['isLogInOk'];
+  session_start();
+  if(!isset($_SESSION['isLogInOk'])){
+    header("location: index.php");
+  }
+  $search = '';
+    if(isset($_GET['search'])) {
+        $search = $_GET['search'];
+    }
+  $user = $_SESSION['isLogInOk'];
   $connect = mysqli_connect('localhost','root','','reddit');
   $sqlUser = "SELECT * FROM userreddit WHERE (nameUser = '$user')" ;
   $resultUser = mysqli_query($connect,$sqlUser);
   $rowUser = mysqli_fetch_assoc($resultUser);
+  
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,7 +31,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="css/popular.css" />
+    <link rel="stylesheet" href="css/home.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -45,8 +49,7 @@
       type="image/x-icon"
     />
   </head>
-  <body class="overflow-scroll">
-    
+  <body class="overflow-scroll" id="body">
     <header>
       <div id="header">
         <div class="h-left">
@@ -57,20 +60,20 @@
         <div class="h-home">
           <div class="home" id="home">
             <button id="homebt">
-              <i class="bi bi-arrow-up-right-circle-fill popular"></i>
-              <span class="text">Popular</span>
+              <i class="bi bi-house-door-fill home-icon"></i>
+              <span class="text">Home</span>
               <i class="bi bi-chevron-down ms-auto"></i>
             </button>
-            <div role="menu" class="home-bt" id="home-bt">
-              <input type="text" placeholder="Filter">
+            <div role="menu" id="home-bt" class="home-bt">
+              <input type="text" placeholder="Filter" />
               <div class="home-bt-menu">
                 <div>FEEDS</div>
-                <a href="home.php">
-                  <i class="bi bi-house-door"></i>
+                <a href="home.html">
+                  <i class="bi bi-house-door-fill"></i>
                   <span>Home</span>
                 </a>
                 <a href="popular.php">
-                  <i class="bi bi-arrow-up-right-circle-fill"></i>
+                  <i class="bi bi-arrow-up-right-circle"></i>
                   <span>Popular</span>
                 </a>
                 <a href="all.php">
@@ -83,25 +86,31 @@
                 </a>
                 <div>OTHER</div>
                 <a href="">
-                  <img src="img/user_img/<?php 
+                  <img
+                    src="img/user_img/<?php 
                               if($rowUser['avatar'] == 0){
                                 echo 'R.jpg';
                               }
                               else{
                                 echo $rowUser['avatar'];
                               }
-                    ?>" alt="">
+                    ?>"
+                    alt=""
+                  />
                   <span>User Settings</span>
                 </a>
                 <a href="">
-                  <img src="img/user_img/<?php 
+                  <img
+                    src="img/user_img/<?php 
                               if($rowUser['avatar'] == 0){
                                 echo 'R.jpg';
                               }
                               else{
                                 echo $rowUser['avatar'];
                               }
-                    ?>" alt="">
+                    ?>"
+                    alt=""
+                  />
                   <span>Messages</span>
                 </a>
                 <a href="createPost.php">
@@ -133,7 +142,7 @@
                   <span>Powerups</span>
                 </a>
                 <a href="">
-                  <img src="img/recap.png" alt="">
+                  <img src="img/recap.png" alt="" />
                   <span>Reddit Recap</span>
                 </a>
                 <a href="">
@@ -141,21 +150,19 @@
                   <span>Talk</span>
                 </a>
                 <a href="">
-                  <span class="material-icons pre">
-                    travel_explore
-                    </span>
+                  <span class="material-icons pre"> travel_explore </span>
                   <span>Predictions</span>
                 </a>
               </div>
             </div>
           </div>
         </div>
-          
         <div class="h-search">
           <form action="">
             <label for=""><i class="bi bi-search"></i></label>
             <input
-              type="text"
+              name = "search"
+              type="search"
               class="bi bi-search"
               placeholder="Search reddit"
             />
@@ -166,13 +173,12 @@
             <a href="popular.html">
               <i class="bi bi-arrow-up-right-circle"></i>
             </a>
-            <a href="all.html">
-              <i class="bi bi-filter-circle"></i>
-            </a><a href="">
+            <a href="all.html"> <i class="bi bi-filter-circle"></i> </a
+            ><a href="">
               <i class="bi bi-camera-video"></i>
             </a>
             <a href="">
-              <img src="img/recap.png" alt="">
+              <img src="img/recap.png" alt="" />
             </a>
           </div>
           <div class="h-right-r">
@@ -206,14 +212,17 @@
                 <span class="avt-name">
                   <span>
                     <div class="avt">
-                      <img src="img/user_img/<?php 
+                      <img
+                        src="img/user_img/<?php 
                               if($rowUser['avatar'] == 0){
                                 echo 'R.jpg';
                               }
                               else{
                                 echo $rowUser['avatar'];
                               }
-                    ?>" alt="">
+                    ?>"
+                        alt=""
+                      />
                     </div>
                   </span>
                   <span class="names">
@@ -226,6 +235,7 @@
                 </span>
                 <i class="bi bi-chevron-down ms-auto down"></i>
               </button>
+              <!--  -->
               <div id="menu-profile">
                 <div class="menu">
                   <h3>ONLINE STATUS</h3>
@@ -242,7 +252,7 @@
                   </button>
                   <h3>MY STUFF</h3>
                   <a class="recap" href="">
-                    <img src="img/recap.png" alt="">
+                    <img src="img/recap.png" alt="" />
                     <p>Reddit Recap</p>
                     <p class="text-new ms-auto">NEW!</p>
                   </a>
@@ -281,8 +291,8 @@
                   <a class="coin" href="">
                     <i class="bi bi-coin"></i>
                     <div>
-                        <span>Coins</span>
-                        <span class="coins">0 coins</span>
+                      <span>Coins</span>
+                      <span class="coins">0 coins</span>
                     </div>
                   </a>
                   <a href="">
@@ -298,15 +308,11 @@
                     <div>Talk</div>
                   </a>
                   <a class="icon" href="">
-                    <span class="material-icons">
-                      travel_explore
-                      </span>
+                    <span class="material-icons"> travel_explore </span>
                     <div>Predictions</div>
                   </a>
                   <a class="icon" href="">
-                    <span class="material-icons">
-                      help_outline
-                      </span>
+                    <span class="material-icons"> help_outline </span>
                     <div>Help Center</div>
                   </a>
                   <a href="">
@@ -318,119 +324,51 @@
                     <div>Log Out</div>
                   </a>
                 </div>
-              </div> 
+              </div>
+
+              <!--  -->
             </div>
           </div>
         </div>
       </div>
     </header>
     <main>
-      <div id="main">
-        <div class="main">
-          <div class="main-top">
-            <div class="trending-p">
-              <div>Trending today</div>
-            </div>
-
-            <div class="trending">
-              <div class="card card-1" style="width: 18rem">
-                <a
-                  href="https://www.reddit.com/search?q=Ukraine&source=trending"
-                >
-                  <div class="trending-1">
-                    <div class="trending-1a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">Ukraine</h2>
-                          <div class="text">
-                            Russian mercenaries deploy to eastern Ukraine -
-                            sources
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="card" style="width: 18rem; margin-left: 12px">
-                <a
-                  href="https://www.reddit.com/search?q=Hong%20Kong&source=trending"
-                >
-                  <div class="trending-2">
-                    <div class="trending-2a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">Hong Kong</h2>
-                          <div class="text">
-                            University of Hong Kong appears to demolish...
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="card" style="width: 18rem; margin-left: 12px">
-                <a
-                  href="https://www.reddit.com/search?q=Student%20Loans&source=trending"
-                >
-                  <div class="trending-3">
-                    <div class="trending-3a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">Student Loans</h2>
-                          <div class="text">
-                            Pause on student loan payments is extended
-                            through...
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="card" style="width: 18rem; margin-left: 12px">
-                <a
-                  href="https://www.reddit.com/search?q=James%20Webb&source=trending"
-                >
-                  <div class="trending-4">
-                    <div class="trending-4a">
-                      <div class="noi-dung">
-                        <div class="nd-1">
-                          <h2 class="h2">James Webb Telescope</h2>
-                          <div class="text">
-                            NASA's 'trailer' for the James Webb telescope. I
-                            gotta say...
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div id="main-bt">
         <div class="main-bt-left">
           <div class="popular">
-            <div class="popular-text">
-              <div>Popular posts</div>
+            <div class="post">
+              <a href="" class="avt">
+                <img
+                  src="img/user_img/<?php 
+                              if($rowUser['avatar'] == 0){
+                                echo 'R.jpg';
+                              }
+                              else{
+                                echo $rowUser['avatar'];
+                              }
+                    ?>"
+                  alt=""
+                />
+              </a>
+              <a href="createPost.php"><input type="text" placeholder="Create Post" /></a>
+              <a href="createPost.php" class="img">
+                <i class="bi bi-image-fill"></i>
+              </a>
+              <a href="createPost.php" class="link">
+                <i class="bi bi-link-45deg"></i>
+              </a>
             </div>
             <div class="popular-main">
               <div class="popular-main-left">
+                <a href="" class="best">
+                  <span class="material-icons"> rocket </span>
+                  <span>Best</span>
+                </a>
+
                 <a href="http://www.reddit.com/hot/" class="hot">
                   <i class="fas fa-burn"></i>
                   <span>Hot</span>
                 </a>
-
-                <div class="everywhere">
-                  <button>
-                    <span>Everywhere</span>
-                    <i class="bi bi-chevron-down"></i>
-                  </button>
-                </div>
 
                 <div class="new">
                   <a href="">
@@ -453,7 +391,7 @@
                     <i class="bi bi-three-dots"></i>
                   </button>
                 </div>
-                <div class="menu-car">
+                <div class="menu-car ms-auto">
                   <button>
                     <span class="material-icons"> view_agenda </span>
                     <i class="bi bi-chevron-down"></i>
@@ -462,11 +400,10 @@
               </div>
             </div>
           </div>
-
           <div>
             <?php
             
-              $sql = "SELECT * FROM postreddit";
+              $sql = "SELECT * FROM postreddit WHERE nameUser = '$user' and title like '%$search%'";
 
               $result = mysqli_query($connect,$sql);
               
@@ -520,7 +457,7 @@
                         alt=""
                       /> -->
                       <?php
-                        if( $row['img'] !== ""){
+                        if($row['img'] !== ""){
                           echo "<img src = 'img/post_img/{$row['img']}' />";
                         }
                       ?>
@@ -534,11 +471,7 @@
                         }
                       ?>
                     </div>
-                  <div class="link">
-                    <a href="index.html">
-                      <span></span>
-                    </a>
-                  </div>
+                  
                 </div>
                 <div class="posts-main-bt">
                   <a href="">
@@ -561,7 +494,7 @@
                 }
               }
             ?>
-          </div>
+          </div>  
         </div>
         <div class="main-bt-right">
           <div class="top-news">
