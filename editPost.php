@@ -494,11 +494,11 @@
           <div class="main-bt-right">
             <div id = "user-info">
               <div class = "info-top">
-                <form class="img-user">
+                <form class="img-user" action = "process-avatar_edit.php" enctype="multipart/form-data">
                   <label class="form-label fs-4 d-block" for="img-user">
                     <div class="imgs">
                       <div class="img">
-                        <img src="img/user_img/<?php 
+                        <img id="img_user" src="img/user_img/<?php 
                               if($rowUser['avatar'] == 0){
                                 echo 'R.jpg';
                               }
@@ -512,7 +512,7 @@
                       </div>
                     </div>
                   </label>
-                  <input  type="file" hidden accept = "image/*" id="img-user" name="imgUser" onchange="document.getElementById('img_user').src = window.URL.createObjectURL(this.files[0])" class="form__input form-control form-control-lg"/>
+                
                   <div class="modal mt-5" id ="save-Avt" tabindex="-1">
                     <div class="modal-dialog">
                       <div class="modal-content">
